@@ -44,6 +44,11 @@ const router = new VueRouter({
             //     },
             // ],
         },
+        {
+            path: "/register",
+            name: "admin",
+            component: importComponent("RegisterPage"),
+        },
     ],
 });
 

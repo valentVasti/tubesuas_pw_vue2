@@ -28,7 +28,7 @@
                 <v-spacer></v-spacer>
                 <span class="navbartext">
                     <!-- XXXX: NPM -->
-                    Login Page
+                    Register Page
                 </span>
             </v-app-bar>
 
@@ -38,8 +38,7 @@
                 elevation="5"
                 rounded
             >
-                <v-card-title class="logincardtitle">LOGIN</v-card-title>
-                <v-card-subtitle>Let's get started!</v-card-subtitle>
+                <v-card-title class="logincardtitle">REGISTER</v-card-title>
 
                 <v-text-field
                     v-model="name"
@@ -58,15 +57,33 @@
                     rounded
                     dense
                 ></v-text-field>
+                
+                <v-text-field
+                    v-model="email"
+                    label="E-Mail"
+                    required
+                    filled
+                    rounded
+                    dense
+                ></v-text-field>
+
+                <v-text-field
+                    v-model="noTelp"
+                    label="Nomor Telepon"
+                    required
+                    filled
+                    rounded
+                    dense
+                ></v-text-field>
 
                 <v-btn color="#219ebc" rounded large block>
-                    <span class="loginBtn">Sign In</span>
+                    <span class="loginBtn">Sign Up</span>
                 </v-btn>
                 <p></p>
                 <hr class="mx-auto" width="350px"/>
                 <p></p>
-                <v-btn color="secondary" text rounded large block to="/register">
-                    <span class="dontBtn">Don't Have Account?</span>
+                <v-btn color="secondary" rounded large block to="/">
+                    <span class="loginBtn">Already Have Account?</span>
                 </v-btn>
             </v-card>            
         </div>
@@ -89,7 +106,7 @@
   }
 
   .cardLogin{
-    margin-top: 150px;
+    margin-top: 125px;
     margin-left: auto;
     margin-bottom: auto;
     margin-right: auto;
@@ -107,18 +124,10 @@
     color: rgb(255, 255, 255);
     font-size: large;
   }
-
-  .dontBtn{
-    font-family: Poppins !important; 
-    font-style:bold; 
-    color: rgb(59, 59, 59);
-    font-size: large;    
-  }
 </style>
 
 <script>
 export default {
-  name: 'LayoutTemplate',
 
 }
 </script>
