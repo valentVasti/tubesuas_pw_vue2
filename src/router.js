@@ -11,7 +11,7 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         {
-            path: "/",
+            path: "/loginPage",
             name: "admin",
             component: importComponent("LoginPage"),
             // children: [
@@ -49,6 +49,23 @@ const router = new VueRouter({
             name: "admin",
             component: importComponent("RegisterPage"),
         },
+        {
+            path: "/",
+            name: "admin",
+            component: importComponent("AppBarSideBar"),
+            children: [
+                {
+                    path: "/hotelPage",
+                    name: "Root",
+                    component: importComponent("HotelPage"),
+                },
+                {
+                    path: "/kotaPage",
+                    name: "Root",
+                    component: importComponent("KotaPage"),
+                },
+            ],
+        }
     ],
 });
 
