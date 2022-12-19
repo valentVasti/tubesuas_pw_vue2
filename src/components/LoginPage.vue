@@ -117,8 +117,52 @@
 </style>
 
 <script>
-export default {
-  name: 'LayoutTemplate',
+// import { ref, reactive } from 'vue'
+// // import { useRoute } from 'vue-router'
+// import axios from 'axios'
 
+// export default {
+//     setup(){
+//         //state departemen
+//         const login = reactive({
+//             username: '',
+//             password: '',
+//         })
+    
+//         //state validation
+//         const validation = ref([])
+
+//         //method store
+//         function login() {
+//             let username = user.username
+//             let password = user.password
+
+//             axios.post('http://127.0.0.1:8000/api/users/login', {
+//                 username: username,
+//                 password: password,
+//             }).then(() => {
+//                 //redirect ke post index
+//                 this.$router.push({
+//                     name: 'loginPage'
+//                 })
+//             }).catch(error => {
+//                 //assign state validation with error
+//                 this.validation.value = error.response.data
+//                 console.log(error);
+//                 console.log("ERROR:: ",error.response.data)
+//             })
+//         }
+
+//         //return
+//         return {
+//             user,
+//             validation,
+//             store
+//         }
+//     }
+// }
+
+export default{
+    
 }
 </script>

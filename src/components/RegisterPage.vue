@@ -41,7 +41,7 @@
                 <v-card-title class="logincardtitle">REGISTER</v-card-title>
 
                 <v-text-field
-                    v-model="name"
+                    v-model="user.username"
                     label="Name"
                     required
                     filled
@@ -50,7 +50,7 @@
                 ></v-text-field>
 
                 <v-text-field
-                    v-model="password"
+                    v-model="user.password"
                     label="Password"
                     required
                     filled
@@ -59,7 +59,7 @@
                 ></v-text-field>
                 
                 <v-text-field
-                    v-model="email"
+                    v-model="user.email"
                     label="E-Mail"
                     required
                     filled
@@ -68,7 +68,7 @@
                 ></v-text-field>
 
                 <v-text-field
-                    v-model="noTelp"
+                    v-model="user.noTelp"
                     label="Nomor Telepon"
                     required
                     filled
@@ -77,12 +77,12 @@
                 ></v-text-field>
 
                 <v-btn color="#219ebc" rounded large block>
-                    <span class="loginBtn">Sign Up</span>
+                    <span class="loginBtn" @click="store()">Sign Up</span>
                 </v-btn>
                 <p></p>
                 <hr class="mx-auto" width="350px"/>
                 <p></p>
-                <v-btn color="secondary" rounded large block to="/">
+                <v-btn color="secondary" text rounded large block to="/loginPage">
                     <span class="loginBtn">Already Have Account?</span>
                 </v-btn>
             </v-card>            
@@ -121,13 +121,60 @@
   .loginBtn{
     font-family: Poppins !important; 
     font-style:bold; 
-    color: rgb(255, 255, 255);
+    color: rgb(59, 59, 59);
     font-size: large;
   }
 </style>
 
 <script>
-export default {
+import { ref, reactive } from 'vue'
+// import { useRoute } from 'vue-router'
+import axios from 'axios'
 
+export default {
+    setup(){
+        //state departemen
+        const user = reactive({
+            username: '',
+            password: '',
+            email: '',
+            noTelp: ''
+        })
+    
+        //state validation
+        const validation = ref([])
+
+        //method store
+        function store() {
+            let username = user.username
+            let password = user.password
+            let email = user.email
+            let noTelp = user.noTelp
+
+            axios.post('http://127.0.0.1:8000/api/users', {
+                username: username,
+                password: password,
+                email: email,
+                noTelp: noTelp
+            }).then(() => {
+                //redirect ke post index
+                this.$router.push({
+                    name: 'loginPage'
+                })
+            }).catch(error => {
+                //assign state validation with error
+                this.validation.value = error.response.data
+                console.log(error);
+                console.log("ERROR:: ",error.response.data)
+            })
+        }
+
+        //return
+        return {
+            user,
+            validation,
+            store
+        }
+    }
 }
 </script>
