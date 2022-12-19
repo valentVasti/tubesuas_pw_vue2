@@ -15,10 +15,10 @@
             :items="kota" :search="search" 
             :items-per-page="10">
                 <template v-slot:[`item.actions`]="{ item }">
-                    <v-btn color="green" class="mr-2" @click="editData(item)">Edit</v-btn>
-                    <v-btn color="red" @click="selectedId = item.id; dialogConfirm = true">Delete</v-btn>
-                    <!-- <v-icon  color="green darken-2" class="mr-2" @click="editData(item)">mdi-pencil</v-icon>
-                    <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon> -->
+                    <!-- <v-btn color="green" class="mr-2" @click="editData(item)">Edit</v-btn>
+                    <v-btn color="red" @click="selectedId = item.id; dialogConfirm = true">Delete</v-btn> -->
+                    <v-icon  color="green darken-2" class="mr-2" @click="editData(item)">mdi-pencil</v-icon>
+                    <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon>
                 </template>
             </v-data-table>
         </v-card>
@@ -33,8 +33,8 @@
                 <v-card-text class="pb-0">
                     <v-container> 
                         <v-form ref="form">
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="kotas.nama_kota" label="Album Name" required :rules="inputRules"></v-text-field>
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="kotas.provinsi" label="Artist Name" required :rules="inputRules"></v-text-field>                        
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="kotas.nama_kota" label="Nama Kota" required :rules="inputRules"></v-text-field>
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="kotas.provinsi" label="Provinsi" required :rules="inputRules"></v-text-field>                        
                         </v-form>
                     </v-container> 
                 </v-card-text>
@@ -158,6 +158,7 @@ export default {
                         name: 'kotaPage'
                     })
                     this.closeDialog()
+                    window.location.reload()
                 }).catch(error=>{
                     this.validation.value = error.response.data
                     console.log(error);
@@ -175,6 +176,7 @@ export default {
                         name: 'kotaPage'
                     })
                     this.closeDialog()
+                    window.location.reload()
                 }).catch(error=>{
                     this.validation.value = error.response.data
                     console.log(error);
@@ -199,6 +201,7 @@ export default {
                         name: 'kotaPage'
                     })
                     this.dialogConfirm=false
+                    window.location.reload()
                 }).catch(error=>{
                     this.validation.value = error.response.data
                     console.log(error);
