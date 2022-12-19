@@ -16,8 +16,8 @@
             :items-per-page="10">
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-btn color="green" class="mr-2" @click="editData(item)">Edit</v-btn>
-                    <v-icon  color="green darken-2" class="mr-2" @click="editData(item)">mdi-pencil</v-icon>
-                    <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon>
+                    <!-- <v-icon  color="green darken-2" class="mr-2" @click="editData(item)">mdi-pencil</v-icon>
+                    <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon> -->
                 </template>
             </v-data-table>
         </v-card>
@@ -187,6 +187,8 @@ export default {
             this.formType = -1; 
             this.form = Object.assign({}, item);
             this.selectedId = item.id;
+            kotas.nama_kota = item.nama_kota,
+            kotas.provinsi = item.provinsi
         }
         //return
         return {
