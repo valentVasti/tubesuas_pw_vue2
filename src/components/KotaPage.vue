@@ -16,6 +16,7 @@
             :items-per-page="10">
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-btn color="green" class="mr-2" @click="editData(item)">Edit</v-btn>
+                    <v-btn color="red" @click="selectedId = item.id; dialogConfirm = true">Delete</v-btn>
                     <!-- <v-icon  color="green darken-2" class="mr-2" @click="editData(item)">mdi-pencil</v-icon>
                     <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon> -->
                 </template>
@@ -45,7 +46,7 @@
             </v-card>
         </v-dialog>
         
-        <!-- <v-dialog transition="dialog-top-transition" max-width="400" v-model="dialogConfirm" style="border-radius: 10px;">
+        <v-dialog transition="dialog-top-transition" max-width="400" v-model="dialogConfirm" style="border-radius: 10px;">
             <v-card style="border-radius: 10px;">
                 <v-card-title class="pa-0">
                     <v-toolbar color="#EF5350" elevation="0" style="border-radius: 10px 10px 0px 0px;" height="80%">
@@ -57,10 +58,10 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="#EEEEEE" large style="font-family: Poppins; font-size: 20px; text-transform: capitalize; font-weight: 900; color:#001D38;" @click="dialogConfirm = false;"> Cancel </v-btn>
-                    <v-btn color="#EF5350" large style="font-family: Poppins; font-size: 20px; text-transform: capitalize; font-weight: 700; color:#EEEEEE;" @click="deleteData">Yes</v-btn> 
+                    <v-btn color="#EF5350" large style="font-family: Poppins; font-size: 20px; text-transform: capitalize; font-weight: 700; color:#EEEEEE;" @click="deleteData()">Yes</v-btn> 
                 </v-card-actions>
                 </v-card>
-        </v-dialog> -->
+        </v-dialog>
         <!-- <V-snackbar v-model="snackbar"  style="font-family: Poppins;" :color="color" timeout="2000" top>{{ error_message }}</v-snackbar>  -->
     </v-main>
 </template>
@@ -105,7 +106,7 @@ export default {
     data(){
         return{
             dialog: false,
-            dialog2: false,
+            dialogConfirm:false,
             idItem: '',
             headers: [
                 {text: "Nama Kota", value: "nama_kota"},
@@ -190,13 +191,28 @@ export default {
             kotas.nama_kota = item.nama_kota,
             kotas.provinsi = item.provinsi
         }
+
+        function deleteData(){
+            axios.delete('http://127.0.0.1:8000/api/kotas/' + this.selectedId, {
+                }).then(()=>{
+                    this.$router.push({
+                        name: 'kotaPage'
+                    })
+                    this.dialogConfirm=false
+                }).catch(error=>{
+                    this.validation.value = error.response.data
+                    console.log(error);
+                    console.log("ERROR:: ", error.response.data)
+                })
+        }
         //return
         return {
             kota,
             kotas,
             validation,
             save,
-            editData
+            editData,
+            deleteData
         }
     },
     methods:{
