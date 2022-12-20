@@ -61,6 +61,7 @@ export default {
                 {title: 'Hotel', icon: 'mdi-album', to:'/hotelPage'},
                 {title: 'Kota', icon: 'mdi-hand-heart-outline', to:'/kotaPage'},
                 {title: 'Album', icon: 'mdi-album', to:'/album'},
+                {title: 'Tiket', icon: 'mdi-ticket', to:'/tiketPage'},
             ],
         }
     }
