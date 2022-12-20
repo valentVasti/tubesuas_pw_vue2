@@ -69,6 +69,11 @@ const router = new VueRouter({
                     name: "Root",
                     component: importComponent("TiketPage"),
                 },
+                {
+                    path: "/profilePage",
+                    name: "Root",
+                    component: importComponent("ProfilePage"),
+                },
             ],
         }
     ],
