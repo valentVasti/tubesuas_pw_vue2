@@ -17,7 +17,7 @@
                 <template v-slot:[`item.actions`]="{ item }">
                     <!-- <v-btn color="green" class="mr-2" @click="editData(item)">Edit</v-btn>
                     <v-btn color="red" @click="selectedId = item.id; dialogConfirm = true">Delete</v-btn> -->
-                    <v-icon  color="green darken-2" class="mr-2" @click="editData(item)">mdi-pencil</v-icon>
+                    <v-icon  color="green darken-2" class="mr-2" @click="editData(item); getkota()">mdi-pencil</v-icon>
                     <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon>
                 </template>
             </v-data-table>
@@ -35,6 +35,22 @@
                         <v-form ref="form">
                             <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.nama_hotel" label="Nama Hotel" required :rules="inputRules"></v-text-field>
                             <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.bintang" label="Bintang" required :rules="inputRules"></v-text-field>    
+
+                            <v-select :items="kota" v-model="hotels.id_kota" outlined label="Kota">
+                                <template v-slot:item="{item, attrs, on}">
+                                    <v-list-item v-bind="attrs" v-on="on">
+                                        <v-list-item-content :value="item.id">
+                                            <v-list-item-title :id="attrs['aria-labelledby']" v-text="item.nama_kota"></v-list-item-title>
+                                            <v-list-item-subtitle v-text="item.id"></v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </template>
+                            </v-select>
+
+                            <!-- <v-select>
+                                <v-list-item v-for="item in kota" :value="item.id" v-bind:key="item.id">{{ item.nama_kota }}</v-list-item>
+                            </v-select> -->
+
                             <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.id_kota" label="Nama Kota" required :rules="inputRules"></v-text-field>
                             <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.harga" label="Harga" required :rules="inputRules"></v-text-field>                    
                         </v-form>
@@ -121,12 +137,17 @@ export default {
             form: {
                 nama_hotel: '',
                 bintang:'',
-                nama_kota: '',
+                id_kota: '',
                 harga: '',
             },
+            // kota: {
+            //     id: '',
+            //     nama_kota:'',
+            //     provinsi: '',
+            // },
             inputRules: [
                 (v) => !!v || 'Must be Filled!'
-            ]
+            ],
         }
     },
     setup() {
@@ -139,6 +160,18 @@ export default {
             axios.get('http://127.0.0.1:8000/api/hotels').then(response => {
                 //assign state posts with response data
                 hotel.value = response.data.data
+            }).catch(error => {
+                console.log(error.response.data)
+            })
+        })
+
+        let kota = ref([])
+
+        onMounted(() => {
+            //get API from Laravel Backend
+            axios.get('http://127.0.0.1:8000/api/kotas').then(response => {
+                //assign state posts with response data
+                kota.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
@@ -233,8 +266,12 @@ export default {
             validation,
             save,
             editData,
+            kota,
             deleteData
         }
+    },
+    created: {
+
     },
     methods:{
         closeDialog() {
@@ -242,6 +279,16 @@ export default {
             this.formType = 0;
             this.$refs.form.reset();
         },
+
+        // getListKota(){
+        //     axios.get('http://127.0.0.1:8000/api/kotas').then(response => {
+        //         //assign state posts with response data
+        //         this.kota.values = response.data.data
+        //     }).catch(error => {
+        //         console.log(error.response.data)
+        //     })
+        // }
+
     },
     computed: {
         formTitle() {
