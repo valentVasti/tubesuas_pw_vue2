@@ -12,7 +12,7 @@ const router = new VueRouter({
     routes: [
         {
             path: "/loginPage",
-            name: "admin",
+            name: "loginPage",
             component: importComponent("LoginPage"),
             // children: [
             //     //Dashboard
@@ -56,12 +56,12 @@ const router = new VueRouter({
             children: [
                 {
                     path: "/hotelPage",
-                    name: "Root",
+                    name: "hotelPage",
                     component: importComponent("HotelPage"),
                 },
                 {
                     path: "/kotaPage",
-                    name: "Root",
+                    name: "kotaPage",
                     component: importComponent("KotaPage"),
                 },
                 {
