@@ -6,13 +6,13 @@
                     <v-text-field v-model="search" class="font-weight-bold" color="black" style="width: 70%;font-family: Poppins; font-size: 20px; font-style:bold; border-radius: 10px;" rounded append-icon="mdi-magnify" outlined placeholder="Search..." hide-details></v-text-field>
                 </v-col> -->
                 <v-col>
-                    <v-btn class="font-weight-bold" style="margin:10px auto;font-family: Poppins; font-size: 20px; text-transform: capitalize; float:right; color: #ffff" large color="#ff8600" @click="dialog = true">Add Hotel</v-btn>
+                    <v-btn class="font-weight-bold" style="margin:10px auto;font-family: Poppins; font-size: 20px; text-transform: capitalize; float:right; color: #ffff" large color="#ff8600" @click="dialog = true">Add Penerbangan</v-btn>
                 </v-col>
             </v-row>
         </v-card>
         <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
             <v-data-table :headers="headers" 
-            :items="hotel"
+            :items="penerbangan"
             :items-per-page="10">
                 <template v-slot:[`item.actions`]="{ item }">
                     <!-- <v-btn color="green" class="mr-2" @click="editData(item)">Edit</v-btn>
@@ -33,10 +33,10 @@
                 <v-card-text class="pb-0">
                     <v-container> 
                         <v-form ref="form">
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.nama_hotel" label="Nama Hotel" required :rules="inputRules"></v-text-field>
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.bintang" label="Bintang" required :rules="inputRules"></v-text-field>    
-                            <v-select :items="kota" item-text="nama_kota" item-value="id" v-model="hotels.id_kota" outlined label="Kota"></v-select>
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.harga" label="Harga" required :rules="inputRules"></v-text-field>                    
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="penerbangans.nama_maskapai" label="Nama Maskapai" required :rules="inputRules"></v-text-field>
+                            <v-select :items="kota" item-text="nama_kota" item-value="id" v-model="penerbangans.id_kota" outlined label="Kota"></v-select>
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="penerbangans.kelas" label="Kelas" required :rules="inputRules"></v-text-field>    
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="penerbangans.harga" label="Harga" required :rules="inputRules"></v-text-field>                    
                         </v-form>
                     </v-container> 
                 </v-card-text>
@@ -111,17 +111,17 @@ export default {
             dialogConfirm:false,
             idItem: '',
             headers: [
-                {text: "Nama Hotel", value: "nama_hotel"},
-                {text: "Bintang", value: "bintang"},
+                {text: "Nama Maskapai", value: "nama_maskapai"},
                 {text: "Nama Kota", value: "nama_kota"},
+                {text: "Kelas", value:"kelas"},
                 {text: "Harga", value: "harga"},
                 {text: "Actions", value: "actions"},
             ],
             formType: 0,
             form: {
-                nama_hotel: '',
-                bintang:'',
-                id_kota: '',
+                nama_maskapai: '',
+                id_kota:'',
+                kelas: '',
                 harga: '',
             },
             inputRules: [
@@ -131,14 +131,14 @@ export default {
     },
     setup() {
         //reactive state
-        let hotel = ref([])
+        let penerbangan = ref([])
 
         //mounted
         onMounted(() => {
             //get API from Laravel Backend
-            axios.get('http://127.0.0.1:8000/api/hotels').then(response => {
+            axios.get('http://127.0.0.1:8000/api/penerbangans').then(response => {
                 //assign state posts with response data
-                hotel.value = response.data.data
+                penerbangan.value = response.data.data
             }).catch(error => {
                 console.log(error.response.data)
             })
@@ -156,10 +156,10 @@ export default {
             })
         })
 
-        const hotels = reactive({
-                nama_hotel: '',
-                bintang:'',
-                id_kota: '',
+        const penerbangans = reactive({
+                nama_maskapai: '',
+                id_kota:'',
+                kelas: '',
                 harga: '',
         })
 
@@ -167,19 +167,19 @@ export default {
 
         function save(){
             if(this.formType == -1){
-                let nama_hotel = hotels.nama_hotel
-                let bintang = hotels.bintang
-                let id_kota = hotels.id_kota
-                let harga = hotels.harga
+                let nama_maskapai = penerbangans.nama_maskapai
+                let id_kota = penerbangans.id_kota
+                let kelas = penerbangans.kelas
+                let harga = penerbangans.harga
 
-                axios.put('http://127.0.0.1:8000/api/hotels/' + this.selectedId, {
-                    nama_hotel: nama_hotel,
-                    bintang: bintang,
+                axios.put('http://127.0.0.1:8000/api/penerbangans/' + this.selectedId, {
+                    nama_maskapai: nama_maskapai,
                     id_kota: id_kota,
+                    kelas: kelas,
                     harga: harga,
                 }).then(()=>{
                     this.$router.push({
-                        name: 'hotelPage'
+                        name: 'penerbanganPage'
                     })
                     this.closeDialog()
                     window.location.reload()
@@ -189,19 +189,19 @@ export default {
                     console.log("ERROR:: ", error.response.data)
                 })
             }else{
-                let nama_hotel = hotels.nama_hotel
-                let bintang = hotels.bintang
-                let id_kota = hotels.id_kota
-                let harga = hotels.harga
+                let nama_maskapai = penerbangans.nama_maskapai
+                let id_kota = penerbangans.id_kota
+                let kelas = penerbangans.kelas
+                let harga = penerbangans.harga
 
-                axios.post('http://127.0.0.1:8000/api/hotels', {
-                    nama_hotel: nama_hotel,
-                    bintang: bintang,
+                axios.post('http://127.0.0.1:8000/api/penerbangans', {
+                    nama_maskapai: nama_maskapai,
                     id_kota: id_kota,
+                    kelas: kelas,
                     harga: harga,
                 }).then(()=>{
                     this.$router.push({
-                        name: 'hotelPage'
+                        name: 'penerbanganPage'
                     })
                     this.closeDialog()
                     window.location.reload()
@@ -218,17 +218,17 @@ export default {
             this.formType = -1; 
             this.form = Object.assign({}, item);
             this.selectedId = item.id;
-            hotels.nama_hotel = item.nama_hotel,
-            hotels.bintang = item.bintang,
-            hotels.id_kota = item.id_kota,
-            hotels.harga = item.harga
+            penerbangans.nama_maskapai = item.nama_maskapai,
+            penerbangans.id_kota = item.id_kota,
+            penerbangans.kelas = item.kelas,
+            penerbangans.harga = item.harga
         }
 
         function deleteData(){
-            axios.delete('http://127.0.0.1:8000/api/hotels/' + this.selectedId, {
+            axios.delete('http://127.0.0.1:8000/api/penerbangans/' + this.selectedId, {
                 }).then(()=>{
                     this.$router.push({
-                        name: 'hotelPage'
+                        name: 'penerbanganPage'
                     })
                     this.dialogConfirm=false
                     window.location.reload()
@@ -240,8 +240,8 @@ export default {
         }
         //return
         return {
-            hotel,
-            hotels,
+            penerbangan,
+            penerbangans,
             validation,
             save,
             editData,
@@ -261,7 +261,7 @@ export default {
     },
     computed: {
         formTitle() {
-            return this.formType === 0 ? "Add Hotel" : "Update Hotel";
+            return this.formType === 0 ? "Add Tiket" : "Update Tiket";
         },
     },
 }

@@ -64,6 +64,16 @@ const router = new VueRouter({
                     name: "kotaPage",
                     component: importComponent("KotaPage"),
                 },
+                {
+                    path: "/tiketPage",
+                    name: "Root",
+                    component: importComponent("TiketPage"),
+                },
+                {
+                    path: "/penerbanganPage",
+                    name: "penerbanganPage",
+                    component: importComponent("PenerbanganPage"),
+                }
             ],
         }
     ],
