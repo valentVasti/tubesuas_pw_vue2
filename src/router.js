@@ -11,7 +11,7 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         {
-            path: "/loginPage",
+            path: "/",
             name: "loginPage",
             component: importComponent("LoginPage"),
             // children: [
@@ -50,8 +50,8 @@ const router = new VueRouter({
             component: importComponent("RegisterPage"),
         },
         {
-            path: "/",
-            name: "admin",
+            path: "/sideBar",
+            name: "sideBar",
             component: importComponent("AppBarSideBar"),
             children: [
                 {
