@@ -63,6 +63,7 @@ export default {
                 {title: 'Album', icon: 'mdi-album', to:'/album'},
                 {title: 'Tiket', icon: 'mdi-ticket', to:'/tiketPage'},
                 {title: 'Penerbangan', icon: 'mdi-ticket', to:'/penerbanganPage'},
+                {title: 'Paket', to:'/paketPage'},
             ],
         }
     }

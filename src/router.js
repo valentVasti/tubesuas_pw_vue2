@@ -73,6 +73,11 @@ const router = new VueRouter({
                     path: "/penerbanganPage",
                     name: "penerbanganPage",
                     component: importComponent("PenerbanganPage"),
+                },
+                {
+                    path: "/paketPage",
+                    name: "paketPage",
+                    component: importComponent("PaketPage"),
                 }
             ],
         }
