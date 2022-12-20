@@ -39,7 +39,7 @@
 					<v-container fluid>
 						<v-row>
 							<v-col cols="12">
-								<v-text-field v-model="user.username" label="Name" :rules="empty" required filled
+								<v-text-field v-model="user.username" label="Username" :rules="empty" required filled
 									rounded dense></v-text-field>
 							</v-col>
 							<v-col cols="12">
@@ -64,7 +64,7 @@
 					<p></p>
 					<hr class="mx-auto" width="350px" />
 					<p></p>
-					<v-btn color="secondary" text rounded large block to="/loginPage">
+					<v-btn color="secondary" text rounded large block to="/">
 						<span class="loginBtn">Already Have Account?</span>
 					</v-btn>
 				</v-form>
@@ -137,7 +137,7 @@ export default {
 			let email = user.email
 			let noTelp = user.noTelp
 
-			axios.post('http://127.0.0.1:8000/api/users', {
+			axios.post('http://127.0.0.1:8000/api/users/register', {
 				username: username,
 				password: password,
 				email: email,
