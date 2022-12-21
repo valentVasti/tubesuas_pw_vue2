@@ -6,18 +6,18 @@
                     <v-text-field v-model="search" class="font-weight-bold" color="black" style="width: 70%;font-family: Poppins; font-size: 20px; font-style:bold; border-radius: 10px;" rounded append-icon="mdi-magnify" outlined placeholder="Search..." hide-details></v-text-field>
                 </v-col> -->
                 <v-col>
-                    <v-btn class="font-weight-bold" style="margin:10px auto;font-family: Poppins; font-size: 20px; text-transform: capitalize; float:right; color: #ffff" large color="#ff8600" @click="dialog = true">Add Hotel</v-btn>
+                    <v-btn class="font-weight-bold" style="margin:10px auto;font-family: Poppins; font-size: 20px; text-transform: capitalize; float:right; color: #ffff" large color="#ff8600" @click="dialog = true">Add Penerbangan</v-btn>
                 </v-col>
             </v-row>
         </v-card>
         <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
             <v-data-table :headers="headers" 
-            :items="kota" :search="search" 
+            :items="penerbangan"
             :items-per-page="10">
                 <template v-slot:[`item.actions`]="{ item }">
                     <!-- <v-btn color="green" class="mr-2" @click="editData(item)">Edit</v-btn>
                     <v-btn color="red" @click="selectedId = item.id; dialogConfirm = true">Delete</v-btn> -->
-                    <v-icon  color="green darken-2" class="mr-2" @click="editData(item)">mdi-pencil</v-icon>
+                    <v-icon  color="green darken-2" class="mr-2" @click="editData(item); getkota()">mdi-pencil</v-icon>
                     <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon>
                 </template>
             </v-data-table>
@@ -33,8 +33,10 @@
                 <v-card-text class="pb-0">
                     <v-container> 
                         <v-form ref="form">
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="kotas.nama_kota" label="Nama Kota" required :rules="inputRules"></v-text-field>
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="kotas.provinsi" label="Provinsi" required :rules="inputRules"></v-text-field>                        
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="penerbangans.nama_maskapai" label="Nama Maskapai" required :rules="inputRules"></v-text-field>
+                            <v-select :items="kota" item-text="nama_kota" item-value="id" v-model="penerbangans.id_kota" outlined label="Kota"></v-select>
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="penerbangans.kelas" label="Kelas" required :rules="inputRules"></v-text-field>    
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="penerbangans.harga" label="Harga" required :rules="inputRules"></v-text-field>                    
                         </v-form>
                     </v-container> 
                 </v-card-text>
@@ -109,25 +111,44 @@ export default {
             dialogConfirm:false,
             idItem: '',
             headers: [
+                {text: "Nama Maskapai", value: "nama_maskapai"},
                 {text: "Nama Kota", value: "nama_kota"},
-                {text: "Provinsi", value: "provinsi"},
+                {text: "Kelas", value:"kelas"},
+                {text: "Harga", value: "harga"},
                 {text: "Actions", value: "actions"},
             ],
             formType: 0,
             form: {
-                nama_kota: '',
-                provinsi: '',
+                nama_maskapai: '',
+                id_kota:'',
+                kelas: '',
+                harga: '',
             },
             inputRules: [
                 (v) => !!v || 'Must be Filled!'
-            ]
+            ],
         }
     },
     setup() {
         //reactive state
-        let kota = ref([])
+        let penerbangan = ref([])
+
+        axios.defaults.headers.common["Authorization"] =
+            localStorage.getItem("token_type") + " " + localStorage.getItem("token");
 
         //mounted
+        onMounted(() => {
+            //get API from Laravel Backend
+            axios.get('http://127.0.0.1:8000/api/penerbangans').then(response => {
+                //assign state posts with response data
+                penerbangan.value = response.data.data
+            }).catch(error => {
+                console.log(error.response.data)
+            })
+        })
+
+        let kota = ref([])
+
         onMounted(() => {
             //get API from Laravel Backend
             axios.get('http://127.0.0.1:8000/api/kotas').then(response => {
@@ -138,24 +159,30 @@ export default {
             })
         })
 
-        const kotas = reactive({
-            nama_kota: '',
-            provinsi: ''
+        const penerbangans = reactive({
+                nama_maskapai: '',
+                id_kota:'',
+                kelas: '',
+                harga: '',
         })
 
         const validation = ref([])
 
         function save(){
             if(this.formType == -1){
-                let nama_kota = kotas.nama_kota
-                let provinsi = kotas.provinsi
+                let nama_maskapai = penerbangans.nama_maskapai
+                let id_kota = penerbangans.id_kota
+                let kelas = penerbangans.kelas
+                let harga = penerbangans.harga
 
-                axios.put('http://127.0.0.1:8000/api/kotas/' + this.selectedId, {
-                    nama_kota: nama_kota,
-                    provinsi: provinsi
+                axios.put('http://127.0.0.1:8000/api/penerbangans/' + this.selectedId, {
+                    nama_maskapai: nama_maskapai,
+                    id_kota: id_kota,
+                    kelas: kelas,
+                    harga: harga,
                 }).then(()=>{
                     this.$router.push({
-                        name: 'kotaPage'
+                        name: 'penerbanganPage'
                     })
                     this.closeDialog()
                     window.location.reload()
@@ -165,15 +192,19 @@ export default {
                     console.log("ERROR:: ", error.response.data)
                 })
             }else{
-                let nama_kota = kotas.nama_kota
-                let provinsi = kotas.provinsi
+                let nama_maskapai = penerbangans.nama_maskapai
+                let id_kota = penerbangans.id_kota
+                let kelas = penerbangans.kelas
+                let harga = penerbangans.harga
 
-                axios.post('http://127.0.0.1:8000/api/kotas', {
-                    nama_kota: nama_kota,
-                    provinsi: provinsi
+                axios.post('http://127.0.0.1:8000/api/penerbangans', {
+                    nama_maskapai: nama_maskapai,
+                    id_kota: id_kota,
+                    kelas: kelas,
+                    harga: harga,
                 }).then(()=>{
                     this.$router.push({
-                        name: 'kotaPage'
+                        name: 'penerbanganPage'
                     })
                     this.closeDialog()
                     window.location.reload()
@@ -190,15 +221,17 @@ export default {
             this.formType = -1; 
             this.form = Object.assign({}, item);
             this.selectedId = item.id;
-            kotas.nama_kota = item.nama_kota,
-            kotas.provinsi = item.provinsi
+            penerbangans.nama_maskapai = item.nama_maskapai,
+            penerbangans.id_kota = item.id_kota,
+            penerbangans.kelas = item.kelas,
+            penerbangans.harga = item.harga
         }
 
         function deleteData(){
-            axios.delete('http://127.0.0.1:8000/api/kotas/' + this.selectedId, {
+            axios.delete('http://127.0.0.1:8000/api/penerbangans/' + this.selectedId, {
                 }).then(()=>{
                     this.$router.push({
-                        name: 'kotaPage'
+                        name: 'penerbanganPage'
                     })
                     this.dialogConfirm=false
                     window.location.reload()
@@ -210,26 +243,31 @@ export default {
         }
         //return
         return {
-            kota,
-            kotas,
+            penerbangan,
+            penerbangans,
             validation,
             save,
             editData,
+            kota,
             deleteData
         }
+    },
+    created: {
+
     },
     methods:{
         closeDialog() {
             this.dialog = false;
             this.formType = 0;
             this.$refs.form.reset();
-        },
+        }
     },
     computed: {
         formTitle() {
-            return this.formType === 0 ? "Add Kota" : "Update Kota";
+            return this.formType === 0 ? "Add Tiket" : "Update Tiket";
         },
     },
 }
 
 </script>
+

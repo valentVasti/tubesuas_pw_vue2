@@ -144,6 +144,12 @@ export default {
 				noTelp: noTelp
 			}).then(() => {
 				//redirect ke post index
+                // toaster.show(`Register Berhasil, Silahkan Cek Email untuk Verifikasi`, {
+                //     type: "success",
+                //     position: "top-right",
+                //     duration: 3000,
+                // });
+
 				this.$router.push({
 					name: 'loginPage'
 				})
