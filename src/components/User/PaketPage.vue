@@ -8,27 +8,33 @@
                 <v-col>
                     <v-select :items="kota" item-text="nama_kota" item-value="id" v-model="transaksi.id_tujuan" outlined label="Kota Tujuan"></v-select>
                 </v-col>
+                <v-col>
+                    <v-btn color="green" class="mr-2" @click="check(); showResult()">Check Hotel dan Penerbangan</v-btn>
+                </v-col>
             </v-row>
         </v-card>
-        <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
-            <v-data-table :headers="headersHotel" 
-            :items="hotel" :search="kotaAsal.nama_kota" 
-            :items-per-page="10">
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-btn color="green" class="mr-2" @click="transaksi.id_hotel = item">Pilih</v-btn>
-                </template>
-            </v-data-table>
-        </v-card>
 
-        <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
-            <v-data-table :headers="headersPenerbangan" 
-            :items="penerbangan" :search="kotaTujuan.nama_kota" 
-            :items-per-page="10">
-                <template v-slot:[`item.actions`]="{ item }">
-                    <v-btn color="green" class="mr-2" @click="transaksi.id_penerbangan = item">Pilih</v-btn>
-                </template>
-            </v-data-table>
-        </v-card>
+        <div v-show="table">
+            <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
+                <v-data-table :headers="headersHotel" 
+                :items="hotel" :search="kotaAsal.nama_kota" 
+                :items-per-page="10">
+                    <template v-slot:[`item.actions`]="{ item }">
+                        <v-btn color="green" class="mr-2" @click="transaksi.id_hotel = item">Pilih</v-btn>
+                    </template>
+                </v-data-table>
+            </v-card>
+
+            <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
+                <v-data-table :headers="headersPenerbangan" 
+                :items="penerbangan" :search="kotaTujuan.nama_kota" 
+                :items-per-page="10">
+                    <template v-slot:[`item.actions`]="{ item }">
+                        <v-btn color="green" class="mr-2" @click="transaksi.id_penerbangan = item">Pilih</v-btn>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </div>
 
         <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
             <h1>Form Data</h1>
@@ -129,6 +135,7 @@ export default {
             ],
             username: localStorage.getItem('usename'),
             harga: 1+1,
+            table: false,
         }
     },
     setup() {
@@ -170,28 +177,30 @@ export default {
             })
         })
 
-        let kotaAsal = ref([])
+let kotaAsal = ref([])
+            let kotaTujuan = ref([])
 
-        onMounted(() => {
-            //get API from Laravel Backend
-            axios.get('http://127.0.0.1:8000/api/kotas/' + transaksi.id_asal).then(response => {
-                //assign state posts with response data
-                kotaAsal.value = response.data.data
-            }).catch(error => {
-                console.log(error.response.data)
-            })
-        })
-        let kotaTujuan = ref([])
+        function check(){  
+                //get API from Laravel Backend
+                axios.get('http://127.0.0.1:8000/api/kotas/' + transaksi.id_asal).then(response => {
+                    //assign state posts with response data
+                    kotaAsal.value = response.data.data
+                }).catch(error => {
+                    console.log(error.response.data)
+                })
+        
 
-        onMounted(() => {
-            //get API from Laravel Backend
-            axios.get('http://127.0.0.1:8000/api/kotas/' + transaksi.id_tujuan).then(response => {
-                //assign state posts with response data
-                kotaTujuan.value = response.data.data
-            }).catch(error => {
-                console.log(error.response.data)
-            })
-        })
+            
+                //get API from Laravel Backend
+                axios.get('http://127.0.0.1:8000/api/kotas/' + transaksi.id_tujuan).then(response => {
+                    //assign state posts with response data
+                    kotaTujuan.value = response.data.data
+                }).catch(error => {
+                    console.log(error.response.data)
+                })
+           
+
+        }
 
         const transaksi = reactive({
             id_asal:'',
@@ -234,9 +243,10 @@ export default {
             kota,
             hotel,
             penerbangan,
+            transaksi,
+            check,
             kotaAsal,
             kotaTujuan,
-            transaksi,
             save
         }
     },
@@ -246,6 +256,9 @@ export default {
             this.formType = 0;
             this.$refs.form.reset();
         },
+        showResult() {
+            this.table = true;
+        }
     },
 }
 
