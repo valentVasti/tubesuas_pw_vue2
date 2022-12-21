@@ -43,11 +43,15 @@ const router = new VueRouter({
                     name: "kotaPage",
                     component: importComponentAdmin("KotaPage"),
                 },
+                // {
+                //     path: "/penerbanganPage",
+                //     name: "penerbanganPage",
+                //     component: importComponent("PenerbanganPage"),
+                // },
                 {
-                    path: "/penerbanganPage",
-                    name: "penerbanganPage",
-<<<<<<< HEAD
-                    component: importComponent("PenerbanganPage"),
+                    path: "/profilePage",
+                    name: "profilePAge",
+                    component: importComponentUser("profilePage"),
                 }
                 // {
                 //     path: "/kotaPage",
@@ -64,27 +68,6 @@ const router = new VueRouter({
                 //     name: "penerbanganPage",
                 //     component: importComponentAdmin("PenerbanganPage"),
                 // }
-=======
-                    component: importComponentAdmin("PenerbanganPage"),
-                },
-            ],
-        },
-        {
-            path: "/UserPage",
-            name: "sideBarUser",
-            component: importComponentUser("AppSideBarUser"),
-            children: [
-                {
-                    path: "/tiketPage",
-                    name: "tiketPage",
-                    component: importComponentUser("TiketPage"),
-                },
-                {
-                    path: "/paketPage",
-                    name: "paketPage",
-                    component: importComponentUser("PaketPage"),
-                },
->>>>>>> 169a062e2a7c7892e674f312c2db2194b4ad6385
             ],
         }
     ],
