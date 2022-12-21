@@ -23,7 +23,7 @@
 				<!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
 				<span class="navbartext">
 					<!-- XXXX: NPM -->
-					Nama Website
+					mlakumlaku.com				
 				</span>
 				<v-spacer></v-spacer>
 				<span class="navbartext">
@@ -38,22 +38,15 @@
 				<v-form ref="form" @submit.prevent="submit">
 					<v-container fluid>
 						<v-row>
-							<v-col cols="12">
-								<v-text-field v-model="user.username" label="Username" :rules="empty" required filled
-									rounded dense></v-text-field>
-							</v-col>
-							<v-col cols="12">
-								<v-text-field v-model="user.password" label="Password" :rules="empty" required filled
-									rounded dense></v-text-field>
-							</v-col>
-							<v-col cols="12">
-								<v-text-field v-model="user.email" label="E-Mail" :rules="rulesEmail" required filled
-									rounded dense></v-text-field>
-							</v-col>
-							<v-col cols="12">
-								<v-text-field v-model="user.noTelp" label="Nomor Telepon" :rules="rulesPhone" required
-									filled rounded dense></v-text-field>
-							</v-col>
+							<v-text-field v-model="user.username" label="Username" :rules="empty" required filled
+								rounded dense></v-text-field>
+						
+							<v-text-field v-model="user.password" label="Password" :rules="empty" required filled
+								rounded dense></v-text-field>
+							<v-text-field v-model="user.email" label="E-Mail" :rules="rulesEmail" required filled
+								rounded dense></v-text-field>
+							<v-text-field v-model="user.noTelp" label="Nomor Telepon" :rules="rulesPhone" required
+								filled rounded dense></v-text-field>
 						</v-row>
 					</v-container>
 					<v-spacer></v-spacer>
