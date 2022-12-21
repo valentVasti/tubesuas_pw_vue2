@@ -1,23 +1,5 @@
 <template>
 	<div>
-		<!-- <v-navigation-drawer app v-model="drawer" width="16%" color="#ff8600" hide-overlay>
-          <v-list-item>
-              <v-list-item-content>
-                  <v-img contain max-height="60"></v-img>
-              </v-list-item-content>
-          </v-list-item>
-          <v-divider></v-divider>
-          <v-list nav>
-              <v-list-item class="my-5" v-for="menu in menus" :key="menu.title" link tag="router-link" :to="menu.to">
-                  <v-list-item-icon>
-                      <v-icon color="#ffff">{{ menu.icon }}</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                      <v-list-item-title style="font-family: Poppins; color: #ffff; font-size: 110.5%; font-weight: 600;">{{ menu.title}}</v-list-item-title>
-                  </v-list-item-content>
-              </v-list-item>
-          </v-list>
-      </v-navigation-drawer> -->
 		<div class="fluid">
 			<v-app-bar app fixed height="65%" color="#219ebc">
 				<!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
@@ -40,14 +22,14 @@
 					<v-container fluid>
 						<v-row>
 
-							<v-text-field v-model="name" label="Name" :rules="empty" required filled rounded
+							<v-text-field v-model="loginInput.email" label="Email" :rules="empty" required filled rounded
 								dense></v-text-field>
-							<v-text-field v-model="password" label="Password" :rules="empty" required filled rounded
+							<v-text-field v-model="loginInput.password" label="Password" :rules="empty" required filled rounded
 								dense></v-text-field>
 						</v-row>
 					</v-container>
 					<v-spacer></v-spacer>
-					<v-btn color="#219ebc" rounded large block type="submit" @click="store()">
+					<v-btn color="#219ebc" rounded large block type="submit" @click="login()">
 						Sign In
 					</v-btn>
 
@@ -110,48 +92,65 @@
 </style>
 
 <script>
-// import { ref, reactive } from 'vue'
+import { ref, reactive } from 'vue'
 // import { useRoute } from 'vue-router'
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
 	setup() {
-		//state departemen
-		// const login = reactive({
-		// 	username: '',
-		// 	password: '',
-		// })
+		const loginInput = reactive({
+			email: '',
+			password: '',
+		})
 
-		// //state validation
-		// const validation = ref([])
+		//state validation
+		const validation = ref([])
 
-		// //method store
-		// function login() {
-		// 	let username = user.username
-		// 	let password = user.password
+		//method store
+		function login() {
+			let email = loginInput.email
+			let password = loginInput.password
 
-		// 	axios.post('http://127.0.0.1:8000/api/users/login', {
-		// 		username: username,
-		// 		password: password,
-		// 	}).then(() => {
-		// 		//redirect ke post index
-		// 		this.$router.push({
-		// 			name: 'loginPage'
-		// 		})
-		// 	}).catch(error => {
-		// 		//assign state validation with error
-		// 		this.validation.value = error.response.data
-		// 		console.log(error);
-		// 		console.log("ERROR:: ", error.response.data)
-		// 	})
-		// }
+			axios.post('http://127.0.0.1:8000/api/users/login', {
+				email: email,
+				password: password,
+			}).then((response) => {
+				//redirect ke post index
+
+				localStorage.setItem('token', response.data.access_token);
+                localStorage.setItem('token_type', response.data.token_type);
+                localStorage.setItem('id_user', response.data.user.id);
+				localStorage.setItem('username', response.data.user.username);
+
+				if(localStorage.getItem('username') == "admin"){
+					this.$router.push({
+						name: 'hotelPage'
+					})
+				}else{
+					this.$router.push({
+						name: 'tiketPage'
+					})
+				}
+			}).catch(error => {
+				//assign state validation with error
+				this.validation.value = error.response.data
+				console.log(error);
+				console.log("ERRORANJ: ", error.response.data)
+
+				// toaster.show(error.response.data.message, {
+                //     type: "error",
+                //     position: "top-right",
+                //     duration: 3000,
+                // });
+			})
+		}
 
 		//return
 		return {
 			empty: [val => (val || '').length > 0 || 'This field is required'],
-			// user,
-			// validation,
-			// store
+			loginInput,
+			validation,
+			login
 		}
 	},
 }

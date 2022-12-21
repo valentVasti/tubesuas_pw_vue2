@@ -12,12 +12,12 @@
         </v-card>
         <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
             <v-data-table :headers="headers" 
-            :items="hotel"
+            :items="kota" :search="search" 
             :items-per-page="10">
                 <template v-slot:[`item.actions`]="{ item }">
                     <!-- <v-btn color="green" class="mr-2" @click="editData(item)">Edit</v-btn>
                     <v-btn color="red" @click="selectedId = item.id; dialogConfirm = true">Delete</v-btn> -->
-                    <v-icon  color="green darken-2" class="mr-2" @click="editData(item); getkota()">mdi-pencil</v-icon>
+                    <v-icon  color="green darken-2" class="mr-2" @click="editData(item)">mdi-pencil</v-icon>
                     <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon>
                 </template>
             </v-data-table>
@@ -33,10 +33,8 @@
                 <v-card-text class="pb-0">
                     <v-container> 
                         <v-form ref="form">
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.nama_hotel" label="Nama Hotel" required :rules="inputRules"></v-text-field>
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.bintang" label="Bintang" required :rules="inputRules"></v-text-field>    
-                            <v-select :items="kota" item-text="nama_kota" item-value="id" v-model="hotels.id_kota" outlined label="Kota"></v-select>
-                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="hotels.harga" label="Harga" required :rules="inputRules"></v-text-field>                    
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="kotas.nama_kota" label="Nama Kota" required :rules="inputRules"></v-text-field>
+                            <v-text-field outlined color="black" class="textfield mt-3"  v-model="kotas.provinsi" label="Provinsi" required :rules="inputRules"></v-text-field>                        
                         </v-form>
                     </v-container> 
                 </v-card-text>
@@ -111,41 +109,28 @@ export default {
             dialogConfirm:false,
             idItem: '',
             headers: [
-                {text: "Nama Hotel", value: "nama_hotel"},
-                {text: "Bintang", value: "bintang"},
                 {text: "Nama Kota", value: "nama_kota"},
-                {text: "Harga", value: "harga"},
+                {text: "Provinsi", value: "provinsi"},
                 {text: "Actions", value: "actions"},
             ],
             formType: 0,
             form: {
-                nama_hotel: '',
-                bintang:'',
-                id_kota: '',
-                harga: '',
+                nama_kota: '',
+                provinsi: '',
             },
             inputRules: [
                 (v) => !!v || 'Must be Filled!'
-            ],
+            ]
         }
     },
     setup() {
         //reactive state
-        let hotel = ref([])
-
-        //mounted
-        onMounted(() => {
-            //get API from Laravel Backend
-            axios.get('http://127.0.0.1:8000/api/hotels').then(response => {
-                //assign state posts with response data
-                hotel.value = response.data.data
-            }).catch(error => {
-                console.log(error.response.data)
-            })
-        })
-
         let kota = ref([])
 
+        axios.defaults.headers.common["Authorization"] =
+            localStorage.getItem("token_type") + " " + localStorage.getItem("token");
+
+        //mounted
         onMounted(() => {
             //get API from Laravel Backend
             axios.get('http://127.0.0.1:8000/api/kotas').then(response => {
@@ -156,30 +141,24 @@ export default {
             })
         })
 
-        const hotels = reactive({
-                nama_hotel: '',
-                bintang:'',
-                id_kota: '',
-                harga: '',
+        const kotas = reactive({
+            nama_kota: '',
+            provinsi: ''
         })
 
         const validation = ref([])
 
         function save(){
             if(this.formType == -1){
-                let nama_hotel = hotels.nama_hotel
-                let bintang = hotels.bintang
-                let id_kota = hotels.id_kota
-                let harga = hotels.harga
+                let nama_kota = kotas.nama_kota
+                let provinsi = kotas.provinsi
 
-                axios.put('http://127.0.0.1:8000/api/hotels/' + this.selectedId, {
-                    nama_hotel: nama_hotel,
-                    bintang: bintang,
-                    id_kota: id_kota,
-                    harga: harga,
+                axios.put('http://127.0.0.1:8000/api/kotas/' + this.selectedId, {
+                    nama_kota: nama_kota,
+                    provinsi: provinsi
                 }).then(()=>{
                     this.$router.push({
-                        name: 'hotelPage'
+                        name: 'kotaPage'
                     })
                     this.closeDialog()
                     window.location.reload()
@@ -189,19 +168,15 @@ export default {
                     console.log("ERROR:: ", error.response.data)
                 })
             }else{
-                let nama_hotel = hotels.nama_hotel
-                let bintang = hotels.bintang
-                let id_kota = hotels.id_kota
-                let harga = hotels.harga
+                let nama_kota = kotas.nama_kota
+                let provinsi = kotas.provinsi
 
-                axios.post('http://127.0.0.1:8000/api/hotels', {
-                    nama_hotel: nama_hotel,
-                    bintang: bintang,
-                    id_kota: id_kota,
-                    harga: harga,
+                axios.post('http://127.0.0.1:8000/api/kotas', {
+                    nama_kota: nama_kota,
+                    provinsi: provinsi
                 }).then(()=>{
                     this.$router.push({
-                        name: 'hotelPage'
+                        name: 'kotaPage'
                     })
                     this.closeDialog()
                     window.location.reload()
@@ -218,17 +193,15 @@ export default {
             this.formType = -1; 
             this.form = Object.assign({}, item);
             this.selectedId = item.id;
-            hotels.nama_hotel = item.nama_hotel,
-            hotels.bintang = item.bintang,
-            hotels.id_kota = item.id_kota,
-            hotels.harga = item.harga
+            kotas.nama_kota = item.nama_kota,
+            kotas.provinsi = item.provinsi
         }
 
         function deleteData(){
-            axios.delete('http://127.0.0.1:8000/api/hotels/' + this.selectedId, {
+            axios.delete('http://127.0.0.1:8000/api/kotas/' + this.selectedId, {
                 }).then(()=>{
                     this.$router.push({
-                        name: 'hotelPage'
+                        name: 'kotaPage'
                     })
                     this.dialogConfirm=false
                     window.location.reload()
@@ -240,31 +213,26 @@ export default {
         }
         //return
         return {
-            hotel,
-            hotels,
+            kota,
+            kotas,
             validation,
             save,
             editData,
-            kota,
             deleteData
         }
-    },
-    created: {
-
     },
     methods:{
         closeDialog() {
             this.dialog = false;
             this.formType = 0;
             this.$refs.form.reset();
-        }
+        },
     },
     computed: {
         formTitle() {
-            return this.formType === 0 ? "Add Hotel" : "Update Hotel";
+            return this.formType === 0 ? "Add Kota" : "Update Kota";
         },
     },
 }
 
 </script>
-
