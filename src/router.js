@@ -69,7 +69,12 @@ const router = new VueRouter({
                     path: "/profileUser",
                     name: "profilePage",
                     component: importComponentUser("ProfilePageUser"),
-                }                
+                } ,
+                {
+                    path: "/transaksiPage",
+                    name: "transaksiPage",
+                    component: importComponentUser("TransaksiPage"),
+                }               
             ],
         }
     ],
