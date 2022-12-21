@@ -51,13 +51,8 @@ const router = new VueRouter({
                 {
                     path: "/penerbanganPage",
                     name: "penerbanganPage",
-                    component: importComponent("PenerbanganPage"),
+                    component: importComponentAdmin("PenerbanganPage"),
                 },
-                {
-                    path: "/paketPage",
-                    name: "paketPage",
-                    component: importComponent("PaketPage"),
-                }
             ],
         },
         {
@@ -70,6 +65,11 @@ const router = new VueRouter({
                     name: "tiketPage",
                     component: importComponentUser("TiketPage"),
                 },
+                {
+                    path: "/paketPage",
+                    name: "paketPage",
+                    component: importComponentUser("PaketPage"),
+                }
                 // {
                 //     path: "/kotaPage",
                 //     name: "kotaPage",
