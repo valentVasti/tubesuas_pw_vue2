@@ -62,7 +62,8 @@ export default {
                 {title: 'Kota', icon: 'mdi-hand-heart-outline', to:'/kotaPage'},
                 {title: 'Album', icon: 'mdi-album', to:'/album'},
                 {title: 'Tiket', icon: 'mdi-ticket', to:'/tiketPage'},
-                {title: 'Profile', icon: 'mdi-profile', to:'/profilePage'},
+                {title: 'Penerbangan', icon: 'mdi-ticket', to:'/penerbanganPage'},
+                {title: 'Profile', icon: 'mdi-person', to:'/profilePage'},
             ],
         }
     }

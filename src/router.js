@@ -70,10 +70,15 @@ const router = new VueRouter({
                     component: importComponent("TiketPage"),
                 },
                 {
-                    path: "/profilePage",
-                    name: "Root",
-                    component: importComponent("ProfilePage"),
+                    path: "/penerbanganPage",
+                    name: "penerbanganPage",
+                    component: importComponent("PenerbanganPage"),
                 },
+                {
+                    path: "/profilePage",
+                    name: "profilePage",
+                    component: importComponent("ProfilePage"),
+                }
             ],
         }
     ],
