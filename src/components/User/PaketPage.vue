@@ -20,7 +20,7 @@
                 :items="hotel" :search="kotaAsal.nama_kota" 
                 :items-per-page="10">
                     <template v-slot:[`item.actions`]="{ item }">
-                        <v-btn color="green" class="mr-2" @click="transaksi.id_hotel = item">Pilih</v-btn>
+                        <v-btn color="green" class="mr-2" @click="getHotel(item.id); transaksi.id_hotel = item.id">Pilih</v-btn>
                     </template>
                 </v-data-table>
             </v-card>
@@ -30,50 +30,133 @@
                 :items="penerbangan" :search="kotaTujuan.nama_kota" 
                 :items-per-page="10">
                     <template v-slot:[`item.actions`]="{ item }">
-                        <v-btn color="green" class="mr-2" @click="transaksi.id_penerbangan = item">Pilih</v-btn>
+                        <v-btn color="green" class="mr-2" @click="getPenerbangan(item.id); transaksi.id_penerbangan = item.id">Pilih</v-btn>
                     </template>
                 </v-data-table>
             </v-card>
         </div>
 
         <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
-            <h1>Form Data</h1>
+            <v-card-title>Form Data</v-card-title>
                 <v-container> 
                     <v-form ref="form">
                         <v-row justify="center" align="center" style="margin:3px auto;">
                             <v-col>
-                                <v-select :items="kota" item-text="nama_kota" item-value="id" v-model="transaksi.id_asal" label="Kota Asal" disabled></v-select>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaAsal.nama_kota" label="Kota Asal" disabled></v-text-field>
                             </v-col>
                             <v-col>
-                                <v-select :items="kota" item-text="nama_kota" item-value="id" v-model="transaksi.id_tujuan" label="Kota Tujuan" disabled></v-select>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaTujuan.nama_kota" label="Kota Tujuan" disabled></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row></v-row>
                         <v-row justify="center" align="center" style="margin:3px auto;">
-                            <v-select :items="hotel" item-text="nama_hotel" item-value="id" v-model="transaksi.id_hotel" label="Nama Hotel" disabled></v-select>
-                            <v-select :items="hotel" item-text="bintang" item-value="id" v-model="transaksi.id_hotel" label="Bintang" disabled></v-select>
-                            <v-select :items="hotel" item-text="nama_kota" item-value="id" v-model="transaksi.id_hotel" label="Kota" disabled></v-select>
-                            <v-select :items="hotel" item-text="harga" item-value="id" v-model="transaksi.id_hotel" label="Harga" disabled></v-select>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="hotels.nama_hotel" label="Nama Hotel" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="hotels.bintang" label="Bintang" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaTujuan.nama_kota" label="Lokasi Kota" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="hotels.harga" label="Harga" disabled></v-text-field>
+                            </v-col>
                         </v-row>
                         <v-row></v-row>
                         <v-row justify="center" align="center" style="margin:3px auto;">
-                            <v-select :items="penerbangan" item-text="nama_maskapai" item-value="id" v-model="transaksi.id_penerbangan" label="Nama Maskapai" disabled></v-select>
-                            <v-select :items="penerbangan" item-text="nama_kota" item-value="id" v-model="transaksi.id_penerbangan" label="Kota Asal" disabled></v-select>
-                            <v-select :items="penerbangan" item-text="nama_kota" item-value="id" v-model="transaksi.id_tujuan" label="Kota Tujuan" disabled></v-select>
-                            <v-select :items="penerbangan" item-text="kelas" item-value="id" v-model="transaksi.id_penerbangan" label="Kelas" disabled></v-select>
-                            <v-select :items="penerbangan" item-text="harga" item-value="id" v-model="transaksi.id_penerbangan" label="Harga" disabled></v-select>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="penerbangans.nama_maskapai" label="Nama Maskapai" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaAsal.nama_kota" label="Kota Asal" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaTujuan.nama_kota" label="Kota Tujuan" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="penerbangans.kelas" label="Kelas" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="penerbangans.harga" label="Harga" disabled></v-text-field>
+                            </v-col>
                         </v-row>
-                        <!-- <v-row>
-                            <v-text>{{ username }}</v-text>
-                            <v-text>{{ harga }}</v-text>
-                        </v-row> -->
                         <v-row>
-                            <v-btn @click="save()">Simpan</v-btn>
+                           <v-btn class="font-weight-bold" style="margin:10px auto;font-family: Poppins; font-size: 20px; text-transform: capitalize; float:right; color: #ffff" large color="#495057" @click="dialog = true; transaksi.harga = hotels.harga + penerbangans.harga">Save</v-btn>
                         </v-row>
-                        <v-row></v-row>
                     </v-form>
                 </v-container> 
         </v-card>
+
+        <v-dialog transition="dialog-top-transition" max-width="600" v-model="dialog" style="border-radius: 10px;">
+            <v-card style="border-radius: 10px;">
+                <v-card-title class="pa-0">
+                    <v-toolbar color="#ff8600" elevation="0" style="border-radius: 10px 10px 0px 0px;" height="90%">
+                      <span style="color: #ffff; font-family: Poppins; font-weight: 800; font-size: 160%; margin-left: 3%;">Note Pembayaran</span>   
+                    </v-toolbar>
+                </v-card-title> 
+                <v-card-text class="pb-0">
+                    <v-container> 
+                        <v-form ref="form">
+                        <v-row justify="center" align="center" style="margin:3px auto;">
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaAsal.nama_kota" label="Kota Asal" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaTujuan.nama_kota" label="Kota Tujuan" disabled></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row></v-row>
+                        <v-row justify="center" align="center" style="margin:3px auto;">
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="hotels.nama_hotel" label="Nama Hotel" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="hotels.bintang" label="Bintang" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaTujuan.nama_kota" label="Lokasi Kota" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="hotels.harga" label="Harga" disabled></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row></v-row>
+                        <v-row justify="center" align="center" style="margin:3px auto;">
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="penerbangans.nama_maskapai" label="Nama Maskapai" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaAsal.nama_kota" label="Kota Asal" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="kotaTujuan.nama_kota" label="Kota Tujuan" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="penerbangans.kelas" label="Kelas" disabled></v-text-field>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="penerbangans.harga" label="Harga" disabled></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <p>{{ user }}</p>
+                            </v-col>
+                            <v-col>
+                                <v-text-field  color="black" class="textfield mt-3"  v-model="transaksi.harga" label="Total Harga" disabled></v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-form>
+                    </v-container> 
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions class="justify-end">
+                    <v-btn color="#EEEEEE" large style="font-family: Poppins; font-size: 20px; text-transform: capitalize; font-weight: 900; color:#001D38;" @click="dialog = false"> Cancel </v-btn>
+                    <v-btn color="#ff8600" large style="font-family: Poppins; font-size: 20px; text-transform: capitalize; font-weight: 700; color:#ffff;" @click="save()"> Save </v-btn> 
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         <!-- <V-snackbar v-model="snackbar"  style="font-family: Poppins;" :color="color" timeout="2000" top>{{ error_message }}</v-snackbar>  -->
     </v-main>
 </template>
@@ -133,13 +216,16 @@ export default {
                 {text: "Pesan", value: "actions"},
 
             ],
-            username: localStorage.getItem('usename'),
-            harga: 1+1,
+            user: localStorage.getItem('usename'),
             table: false,
+            dialog: false,
         }
     },
     setup() {
         let kota = ref([])
+
+        axios.defaults.headers.common["Authorization"] =
+            localStorage.getItem("token_type") + " " + localStorage.getItem("token");
 
         onMounted(() => {
             //get API from Laravel Backend
@@ -177,7 +263,7 @@ export default {
             })
         })
 
-let kotaAsal = ref([])
+            let kotaAsal = ref([])
             let kotaTujuan = ref([])
 
         function check(){  
@@ -188,8 +274,6 @@ let kotaAsal = ref([])
                 }).catch(error => {
                     console.log(error.response.data)
                 })
-        
-
             
                 //get API from Laravel Backend
                 axios.get('http://127.0.0.1:8000/api/kotas/' + transaksi.id_tujuan).then(response => {
@@ -198,8 +282,26 @@ let kotaAsal = ref([])
                 }).catch(error => {
                     console.log(error.response.data)
                 })
-           
-
+        }
+        let hotels = ref([])
+        function getHotel(item){  
+                //get API from Laravel Backend
+                axios.get('http://127.0.0.1:8000/api/hotels/' + item).then(response => {
+                    //assign state posts with response data
+                    hotels.value = response.data.data
+                }).catch(error => {
+                    console.log(error.response.data)
+                })
+        }
+        let penerbangans = ref([])
+        function getPenerbangan(item){  
+                //get API from Laravel Backend
+                axios.get('http://127.0.0.1:8000/api/penerbangans/' + item).then(response => {
+                    //assign state posts with response data
+                    penerbangans.value = response.data.data
+                }).catch(error => {
+                    console.log(error.response.data)
+                })
         }
 
         const transaksi = reactive({
@@ -227,10 +329,7 @@ let kotaAsal = ref([])
                 id_user: id_user,
                 harga: harga,
             }).then(()=>{
-                this.$router.push({
-                    name: 'PaketPage'
-                })
-                this.closeDialog()
+                this.dialog = false;
                 window.location.reload()
             }).catch(error=>{
                 this.validation.value = error.response.data
@@ -247,6 +346,10 @@ let kotaAsal = ref([])
             check,
             kotaAsal,
             kotaTujuan,
+            getHotel,
+            hotels,
+            getPenerbangan,
+            penerbangans,
             save
         }
     },

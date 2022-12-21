@@ -53,6 +53,11 @@ const router = new VueRouter({
                     name: "userPage",
                     component: importComponentAdmin("AllUserPage"),
                 },
+                {
+                    path: "/transaksiPageAdmin",
+                    name: "transaksiPageAdmin",
+                    component: importComponentAdmin("TransaksiPageAdmin"),
+                }
             ],
         },
         {
@@ -70,11 +75,21 @@ const router = new VueRouter({
                     name: "paketPage",
                     component: importComponentUser("PaketPage"),
                 },
+				{
+                    path: "/transaksiPage",
+                    name: "Transaksi",
+                    component: importComponentUser("TransaksiPage"),
+                },
                 {
                     path: "/profileUser",
                     name: "profilePage",
                     component: importComponentUser("ProfilePageUser"),
-                }                
+                } ,
+                {
+                    path: "/transaksiPage",
+                    name: "transaksiPage",
+                    component: importComponentUser("TransaksiPage"),
+                }               
             ],
         }
     ],
