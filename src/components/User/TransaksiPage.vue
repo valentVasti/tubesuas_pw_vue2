@@ -142,3 +142,9 @@ export default {
 }
 
 </script>
+
+span.text-button {
+	color: white;
+	font-size: 50%;
+}
+</style>

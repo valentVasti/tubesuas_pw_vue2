@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer app v-model="drawer" width="16%" color="#ff8600" hide-overlay>
+        <v-navigation-drawer app v-model="drawer" width="16%" color="#495057" hide-overlay>
             <v-list-item>
                 <!-- <v-list-item-content>
                     <v-img :src="require('@/assets/vuefire.png')" contain max-height="60"></v-img>
@@ -26,10 +26,7 @@
         <v-app-bar app fixed height="80%" color="#ffff">
             <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
-            <span class="navbartext">
-                <!-- XXXX: NPM -->
-                Vuefire - 0867
-            </span>
+                <v-btn color="#ef233c" style="font-family: Poppins; font-size: 20px; text-transform: capitalize; font-weight: 700; color:#EEEEEE;" @click="logout()">LOGOUT</v-btn>
         </v-app-bar>
         <div style="min-height: 100vh !important;">
             <router-view></router-view>
@@ -56,6 +53,8 @@
 
 <script>
 
+// import axios from 'axios'
+
 export default {
     name: 'LayoutTemplate',
     data () {
@@ -64,9 +63,10 @@ export default {
             menus: [
                 {title: 'Hotel', icon: 'mdi-album', to:'/hotelPage'},
                 {title: 'Kota', icon: 'mdi-hand-heart-outline', to:'/kotaPage'},
+                {title: 'Album', icon: 'mdi-album', to:'/album'},
+                {title: 'Tiket', icon: 'mdi-ticket', to:'/tiketPage'},
                 {title: 'Penerbangan', icon: 'mdi-ticket', to:'/penerbanganPage'},
                 {title: 'Paket', to:'/paketPage'},
-                {title: 'Profile', to:'/profilePage'},
             ],
         }
     }
