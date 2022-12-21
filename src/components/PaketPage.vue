@@ -35,7 +35,21 @@
                             <v-col>
                                 <v-select :items="kota" item-text="nama_kota" item-value="id" v-model="transaksi.kota_tujuan" label="Kota Tujuan" disabled></v-select>
                             </v-col>
-
+                        </v-row>
+                        <v-row></v-row>
+                        <v-row justify="center" align="center" style="margin:3px auto;">
+                            <v-select :items="hotel" item-text="nama_hotel" item-value="id" v-model="transaksi.id_hotel" label="Nama Hotel" disabled></v-select>
+                            <v-select :items="hotel" item-text="bintang" item-value="id" v-model="transaksi.id_hotel" label="Bintang" disabled></v-select>
+                            <v-select :items="hotel" item-text="nama_kota" item-value="id" v-model="transaksi.id_hotel" label="Kota" disabled></v-select>
+                            <v-select :items="hotel" item-text="harga" item-value="id" v-model="transaksi.id_hotel" label="Harga" disabled></v-select>
+                        </v-row>
+                        <v-row></v-row>
+                        <v-row justify="center" align="center" style="margin:3px auto;">
+                            <v-select :items="penerbangan" item-text="nama_maskapai" item-value="id" v-model="transaksi.id_penerbangan" label="Nama Maskapai" disabled></v-select>
+                            <v-select :items="penerbangan" item-text="nama_kota" item-value="id" v-model="transaksi.id_penerbangan" label="Kota Asal" disabled></v-select>
+                            <v-select :items="penerbangan" item-text="nama_kota" item-value="id" v-model="transaksi.kota_tujuan" label="Kota Tujuan" disabled></v-select>
+                            <v-select :items="penerbangan" item-text="kelas" item-value="id" v-model="transaksi.id_penerbangan" label="Kelas" disabled></v-select>
+                            <v-select :items="penerbangan" item-text="harga" item-value="id" v-model="transaksi.id_penerbangan" label="Harga" disabled></v-select>
                         </v-row>
                     </v-form>
                 </v-container> 
@@ -138,7 +152,9 @@ export default {
 
         const transaksi = reactive({
             kota_asal:'',
-            kota_tujuan:''
+            kota_tujuan:'',
+            id_hotel:'',
+            id_penerbangan:''
         })
 
         return{
