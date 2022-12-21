@@ -1,9 +1,8 @@
 <template>
     <v-main class="list">
-      <v-card class="mx-auto mt-5" max-width="350">
-        <v-alert outlined color="#3C2317">
-        <v-card-text class="black--text">
-            <h1 >Profile</h1>
+      <v-card class="profileCard" elevation="9">
+        <!-- <v-alert outlined color="#3C2317"> -->
+        <v-card-title class="black--text"> Profile</v-card-title>
           <v-img 
           width="270px" justify-center
             max-height="260"
@@ -19,13 +18,10 @@
           <p style="color:#3C2317" >{{users.noTelp}}</p>
           <v-spacer></v-spacer>
           <v-btn color="brown lighten-2" class="mb-6" @click="(dialogEdit = true), editItem(users)">Edit</v-btn>
-        </v-card-text>
-      </v-alert>
+        <!-- </v-card-text> -->
+      <!-- </v-alert> -->
       </v-card>
-
-
       
-  
       <v-dialog v-model="dialog"  persistent max-width="600px"
       max-height="170" class="mb-5" >
       <v-card color="brown lighten-5">
@@ -44,26 +40,15 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-  
-      
-  
-      <!-- <v-dialog v-model="dialogConfirm" persistent max-width="400px">
-        <v-card color="brown lighten-5">
-          <v-card-title>
-            <span class="headline">WARNING!</span>
-          </v-card-title>
-          <v-card-text bold> Anda yakin ingin menghapus pengguna ini? </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="brown darken-1" text @click="dialogConfirm = false">
-              Cancel
-            </v-btn>
-            <v-btn color="red darken-1" text @click="deleteData"> Delete </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog> -->
     </v-main>
   </template>
+
+<style>
+  .profileCard{
+    margin: 25px;
+  }
+</style>
+
   <script>
   export default {
     name: "profilePage",

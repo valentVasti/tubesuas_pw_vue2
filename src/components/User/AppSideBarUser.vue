@@ -64,6 +64,8 @@ export default {
             menus: [
                 {title: 'Tiket', icon: 'mdi-ticket', to:'/tiketPage'},
                 {title: 'Paket', icon: 'mdi-calendar-check', to:'/paketPage'},
+                {title: 'Profile', icon: 'mdi-account', to:'/profileUser'},
+
             ],
         }
     },
