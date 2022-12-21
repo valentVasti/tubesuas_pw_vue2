@@ -78,6 +78,11 @@ const router = new VueRouter({
                     path: "/paketPage",
                     name: "paketPage",
                     component: importComponent("PaketPage"),
+                },
+				{
+                    path: "/transaksiPage",
+                    name: "Transaksi",
+                    component: importComponent("TransaksiPage"),
                 }
             ],
         }
