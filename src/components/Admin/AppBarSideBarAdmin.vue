@@ -61,9 +61,11 @@ export default {
         return {
             drawer: true,
             menus: [
-                {title: 'Hotel', icon: 'mdi-album', to:'/hotelPage'},
+                {title: 'Hotel', icon: 'mdi-city', to:'/hotelPage'},
                 {title: 'Kota', icon: 'mdi-hand-heart-outline', to:'/kotaPage'},
                 {title: 'Penerbangan', icon: 'mdi-ticket', to:'/penerbanganPage'},
+                {title: 'List User', icon: 'mdi-account', to:'/userPage'},
+
             ],
         }
     },

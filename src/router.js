@@ -48,6 +48,11 @@ const router = new VueRouter({
                     name: "penerbanganPage",
                     component: importComponentAdmin("PenerbanganPage"),
                 },
+                {
+                    path: "/userPage",
+                    name: "userPage",
+                    component: importComponentAdmin("AllUserPage"),
+                },
             ],
         },
         {
