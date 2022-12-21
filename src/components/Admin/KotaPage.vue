@@ -6,7 +6,7 @@
                     <v-text-field v-model="search" class="font-weight-bold" color="black" style="width: 70%;font-family: Poppins; font-size: 20px; font-style:bold; border-radius: 10px;" rounded append-icon="mdi-magnify" outlined placeholder="Search..." hide-details></v-text-field>
                 </v-col> -->
                 <v-col>
-                    <v-btn class="font-weight-bold" style="margin:10px auto;font-family: Poppins; font-size: 20px; text-transform: capitalize; float:right; color: #ffff" large color="#ff8600" @click="dialog = true">Add Hotel</v-btn>
+                    <v-btn class="font-weight-bold" style="margin:10px auto;font-family: Poppins; font-size: 20px; text-transform: capitalize; float:right; color: #ffff" large color="#495057" @click="dialog = true">Add Hotel</v-btn>
                 </v-col>
             </v-row>
         </v-card>

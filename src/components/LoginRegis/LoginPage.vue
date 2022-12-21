@@ -5,7 +5,7 @@
 				<!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
 				<span class="navbartext">
 					<!-- XXXX: NPM -->
-					Nama Website
+					mlakumlaku.com				
 				</span>
 				<v-spacer></v-spacer>
 				<span class="navbartext">

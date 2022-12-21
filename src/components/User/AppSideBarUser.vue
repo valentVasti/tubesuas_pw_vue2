@@ -1,13 +1,13 @@
 <template>
     <div>
-        <v-navigation-drawer app v-model="drawer" width="16%" color="#ff8600" hide-overlay>
+        <v-navigation-drawer app v-model="drawer" width="16%" color="#219ebc" hide-overlay>
             <v-list-item>
                 <!-- <v-list-item-content>
                     <v-img :src="require('@/assets/vuefire.png')" contain max-height="60"></v-img>
                 </v-list-item-content> -->
                 <span class="navbartext">
                 <!-- XXXX: NPM -->
-                    USER
+                    Halo, {{ navbaruser }}
                 </span>
             </v-list-item>
             <v-divider></v-divider>
@@ -42,8 +42,8 @@
     .navbartext{
         font-family: Poppins; 
         font-style:bold; 
-        color: black;
-        font-size: 20px;
+        color: rgb(255, 255, 255);
+        font-size: 25px;
     }
     .textfield{
         font-family: Poppins !important;
@@ -59,9 +59,11 @@ export default {
     name: 'LayoutTemplate',
     data () {
         return {
+            navbaruser: localStorage.getItem('username'),
             drawer: true,
             menus: [
                 {title: 'Tiket', icon: 'mdi-ticket', to:'/tiketPage'},
+                {title: 'Paket', icon: 'mdi-calendar-check', to:'/paketPage'},
             ],
         }
     },

@@ -1,11 +1,15 @@
 <template>
     <div>
         <v-navigation-drawer app v-model="drawer" width="16%" color="#ff8600" hide-overlay>
-            <!-- <v-list-item>
-                <v-list-item-content>
+            <v-list-item>
+                <!-- <v-list-item-content>
                     <v-img :src="require('@/assets/vuefire.png')" contain max-height="60"></v-img>
-                </v-list-item-content>
-            </v-list-item> -->
+                </v-list-item-content> -->
+                <span class="navbartext">
+                <!-- XXXX: NPM -->
+                    ADMIN
+                </span>
+            </v-list-item>
             <v-divider></v-divider>
             <v-list nav>
                 <v-list-item class="my-5" v-for="menu in menus" :key="menu.title" link tag="router-link" :to="menu.to">
@@ -39,9 +43,9 @@
     @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@500&display=swap');
 
     .navbartext{
-        font-family: Poppins; 
+        font-family: Poppins !important; 
         font-style:bold; 
-        color: black;
+        color: rgb(255, 255, 255);
         font-size: 20px;
     }
     .textfield{
@@ -60,9 +64,8 @@ export default {
             menus: [
                 {title: 'Hotel', icon: 'mdi-album', to:'/hotelPage'},
                 {title: 'Kota', icon: 'mdi-hand-heart-outline', to:'/kotaPage'},
-                {title: 'Album', icon: 'mdi-album', to:'/album'},
-                {title: 'Tiket', icon: 'mdi-ticket', to:'/tiketPage'},
                 {title: 'Penerbangan', icon: 'mdi-ticket', to:'/penerbanganPage'},
+                {title: 'Paket', to:'/paketPage'},
             ],
         }
     }
