@@ -51,7 +51,12 @@ const router = new VueRouter({
                 {
                     path: "/penerbanganPage",
                     name: "penerbanganPage",
-                    component: importComponentAdmin("PenerbanganPage"),
+                    component: importComponent("PenerbanganPage"),
+                },
+                {
+                    path: "/paketPage",
+                    name: "paketPage",
+                    component: importComponent("PaketPage"),
                 }
             ],
         },
