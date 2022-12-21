@@ -5,7 +5,7 @@
 				<!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
 				<span class="navbartext">
 					<!-- XXXX: NPM -->
-					Nama Website
+					mlakumlaku.com				
 				</span>
 				<v-spacer></v-spacer>
 				<span class="navbartext">
@@ -119,16 +119,29 @@ export default {
 
 				localStorage.setItem('token', response.data.access_token);
                 localStorage.setItem('token_type', response.data.token_type);
-                localStorage.setItem('id_user', response.data.id);
+                localStorage.setItem('id_user', response.data.user.id);
+				localStorage.setItem('username', response.data.user.username);
 
-				this.$router.push({
-					name: 'hotelPage'
-				})
+				if(localStorage.getItem('username') == "admin"){
+					this.$router.push({
+						name: 'hotelPage'
+					})
+				}else{
+					this.$router.push({
+						name: 'tiketPage'
+					})
+				}
 			}).catch(error => {
 				//assign state validation with error
 				this.validation.value = error.response.data
 				console.log(error);
 				console.log("ERRORANJ: ", error.response.data)
+
+				// toaster.show(error.response.data.message, {
+                //     type: "error",
+                //     position: "top-right",
+                //     duration: 3000,
+                // });
 			})
 		}
 

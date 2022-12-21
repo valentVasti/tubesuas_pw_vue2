@@ -3,8 +3,16 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-function importComponent(path){
-    return () => import(`./components/${path}.vue`);
+function importComponentAdmin(path){
+    return () => import(`./components/Admin/${path}.vue`);
+}
+
+function importComponentUser(path){
+    return () => import(`./components/User/${path}.vue`);
+}
+
+function importComponentAuth(path){
+    return () => import(`./components/LoginRegis/${path}.vue`);
 }
 
 const router = new VueRouter({
@@ -13,77 +21,60 @@ const router = new VueRouter({
         {
             path: "/",
             name: "loginPage",
-            component: importComponent("LoginPage"),
-            // children: [
-            //     //Dashboard
-            //     {
-            //         path: "/",
-            //         name: "Root",
-            //         component: importComponent("DashboardIndex"),
-            //     },
-
-            //     //To Do List
-            //     {
-            //         path: "/gd",
-            //         name: "Guided",
-            //         component: importComponent("TodoList/ListItem"),
-            //     },
-
-            //     //UGD
-            //     {
-            //         path: "/ugd",
-            //         name: "Activity Unguided",
-            //         component: importComponent("TodoList/ToDoListUGD"),
-            //     },
-
-            //     //TGS
-            //     {
-            //         path: "/tgs",
-            //         name: "Activity Tugas",
-            //         component: importComponent("TodoList/TugasList"),
-            //     },
-            // ],
+            component: importComponentAuth("LoginPage"),
         },
         {
             path: "/register",
             name: "admin",
-            component: importComponent("RegisterPage"),
+            component: importComponentAuth("RegisterPage"),
         },
         {
-            path: "/sideBar",
-            name: "sideBar",
-            component: importComponent("AppBarSideBar"),
+            path: "/AdminPage",
+            name: "sideBarAdmin",
+            component: importComponentAdmin("AppBarSideBarAdmin"),
             children: [
                 {
                     path: "/hotelPage",
                     name: "hotelPage",
-                    component: importComponent("HotelPage"),
+                    component: importComponentAdmin("HotelPage"),
                 },
                 {
                     path: "/kotaPage",
                     name: "kotaPage",
-                    component: importComponent("KotaPage"),
-                },
-                {
-                    path: "/tiketPage",
-                    name: "Root",
-                    component: importComponent("TiketPage"),
+                    component: importComponentAdmin("KotaPage"),
                 },
                 {
                     path: "/penerbanganPage",
                     name: "penerbanganPage",
-                    component: importComponent("PenerbanganPage"),
+                    component: importComponentAdmin("PenerbanganPage"),
+                },
+            ],
+        },
+        {
+            path: "/UserPage",
+            name: "sideBarUser",
+            component: importComponentUser("AppSideBarUser"),
+            children: [
+                {
+                    path: "/tiketPage",
+                    name: "tiketPage",
+                    component: importComponentUser("TiketPage"),
                 },
                 {
                     path: "/paketPage",
                     name: "paketPage",
-                    component: importComponent("PaketPage"),
+                    component: importComponentUser("PaketPage"),
                 },
 				{
                     path: "/transaksiPage",
                     name: "Transaksi",
-                    component: importComponent("TransaksiPage"),
-                }
+                    component: importComponentUser("TransaksiPage"),
+                },
+                {
+                    path: "/profileUser",
+                    name: "profilePage",
+                    component: importComponentUser("ProfilePageUser"),
+                }                
             ],
         }
     ],
