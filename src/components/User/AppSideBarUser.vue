@@ -26,7 +26,7 @@
         <v-app-bar app fixed height="80%" color="#ffff">
             <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
             <v-spacer></v-spacer>
-                <v-btn color="#ef233c" style="font-family: Poppins; font-size: 20px; text-transform: capitalize; font-weight: 700; color:#EEEEEE;" @click="logout()">LOGOUT</v-btn>
+                <v-btn color="#ef233c" style="font-family: Poppins; font-size: 20px; text-transform: capitalize; font-weight: 700; color:#ffff;" @click="logout()">LOGOUT</v-btn>
             </v-app-bar>
         <div style="min-height: 100vh !important;">
             <router-view></router-view>
