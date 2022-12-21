@@ -53,7 +53,7 @@
 
 <script>
 
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
     name: 'LayoutTemplate',
@@ -61,12 +61,44 @@ export default {
         return {
             drawer: true,
             menus: [
-                {title: 'Hotel', icon: 'mdi-album', to:'/hotelPage'},
+                {title: 'Hotel', icon: 'mdi-city', to:'/hotelPage'},
                 {title: 'Kota', icon: 'mdi-hand-heart-outline', to:'/kotaPage'},
                 {title: 'Penerbangan', icon: 'mdi-ticket', to:'/penerbanganPage'},
+                {title: 'List User', icon: 'mdi-account', to:'/userPage'},
                 {title: "Transaksi", icon: 'mdi-credit-card', to:'/transaksiPageAdmin'},
             ],
         }
-    }
+    },
+    setup(){
+        axios.defaults.headers.common["Authorization"] =
+            localStorage.getItem("token_type") + " " + localStorage.getItem("token");
+
+		function logout() {
+			axios.post('http://127.0.0.1:8000/api/users/logout', {
+
+			}).then(() => {
+				// localStorage.setItem('token', response.data.access_token);
+				// localStorage.setItem('token_type', response.data.token_type);
+				// localStorage.setItem('id_user', response.data.user.id);
+				// localStorage.setItem('username', response.data.user.username);
+
+				localStorage.removeItem('token');
+				localStorage.removeItem('token_type');
+				localStorage.removeItem('id_user');
+				localStorage.removeItem('username');
+
+				this.$router.push({
+					name: 'loginPage'
+				})
+			}).catch(error => {
+				this.validation.value = error.response.data
+				console.log(error);
+				console.log("ERROR:: ", error.response.data)
+			})
+		}
+		return {
+			logout
+		}
+	}
 }
 </script>
