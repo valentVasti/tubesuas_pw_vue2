@@ -43,28 +43,31 @@ const router = new VueRouter({
                     name: "kotaPage",
                     component: importComponentAdmin("KotaPage"),
                 },
+                // {
+                //     path: "/penerbanganPage",
+                //     name: "penerbanganPage",
+                //     component: importComponent("PenerbanganPage"),
+                // },
                 {
-                    path: "/penerbanganPage",
-                    name: "penerbanganPage",
-                    component: importComponentAdmin("PenerbanganPage"),
-                },
-            ],
-        },
-        {
-            path: "/UserPage",
-            name: "sideBarUser",
-            component: importComponentUser("AppSideBarUser"),
-            children: [
-                {
-                    path: "/tiketPage",
-                    name: "tiketPage",
-                    component: importComponentUser("TiketPage"),
-                },
-                {
-                    path: "/paketPage",
-                    name: "paketPage",
-                    component: importComponentUser("PaketPage"),
-                },
+                    path: "/profilePage",
+                    name: "profilePAge",
+                    component: importComponentUser("profilePage"),
+                }
+                // {
+                //     path: "/kotaPage",
+                //     name: "kotaPage",
+                //     component: importComponentAdmin("KotaPage"),
+                // },
+                // {
+                //     path: "/tiketPage",
+                //     name: "Root",
+                //     component: importComponentAdmin("TiketPage"),
+                // },
+                // {
+                //     path: "/penerbanganPage",
+                //     name: "penerbanganPage",
+                //     component: importComponentAdmin("PenerbanganPage"),
+                // }
             ],
         }
     ],
