@@ -2,14 +2,11 @@
     <v-main>
        <v-card elevation="3" class="mt-5 mx-6" style="border-radius: 6px;">
             <v-row justify="center" align="center" style="margin:3px auto;">
-                <!-- <v-col>
-                    <v-text-field v-model="search" class="font-weight-bold" color="black" style="width: 70%;font-family: Poppins; font-size: 20px; font-style:bold; border-radius: 10px;" rounded append-icon="mdi-magnify" outlined placeholder="Search..." hide-details></v-text-field>
-                </v-col> -->
             </v-row>
         </v-card>
         <v-card elevation="3" style="border-radius: 6px;" class="mt-5 mx-6">
             <v-data-table :headers="headers" 
-            :items="transaksi" :search="user"
+            :items="transaksi"
             :items-per-page="10">
                 <template v-slot:[`item.actions`]="{ item }">
                     <v-icon  color="red" @click="selectedId = item.id; dialogConfirm = true"> mdi-delete </v-icon>
@@ -90,7 +87,6 @@ export default {
             inputRules: [
                 (v) => !!v || 'Must be Filled!'
             ],
-            user : localStorage.getItem('usename'),
 
         }
     },
@@ -116,7 +112,7 @@ export default {
             axios.delete('http://127.0.0.1:8000/api/transaksis/' + this.selectedId, {
                 }).then(()=>{
                     this.$router.push({
-                        name: 'transaksiPage'
+                        name: 'transaksiPageAdmin'
                     })
                     this.dialogConfirm=false
                     window.location.reload()
